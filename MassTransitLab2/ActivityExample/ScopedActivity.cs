@@ -10,15 +10,15 @@ namespace MassTransitLab2
     public class ScopedActivity
    : IActivity<Arguments, Log>
     {
-        public ScopedActivity()
+        private readonly IContextService _contextService;
+        public ScopedActivity(IContextService contextService)
         {
+            _contextService = contextService;
         }
 
         public Task<ExecutionResult> Execute(ExecuteContext<Arguments> context)
         {
-            var success = context.TryGetPayload<IServiceProvider>(out var sp);
-            var service = sp.GetRequiredService<IContextService>();
-            Console.WriteLine($"Activity TenantId: {service.TenantId}");
+            Console.WriteLine($"Activity TenantId: {_contextService.TenantId}");
             return Task.FromResult(context.Completed());
         }
 

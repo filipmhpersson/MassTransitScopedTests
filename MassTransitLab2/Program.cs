@@ -34,6 +34,7 @@ namespace MassTransitLab2
                             configurator.UseExecuteActivityFilter(typeof(AddActivityScopedValueFilter<>), context);
                             configurator.UseConsumeFilter(typeof(AddConsumerScopedValueFilter<>), context);
                             configurator.ConfigureEndpoints(context);
+
                         });
                     });
 
