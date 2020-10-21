@@ -27,12 +27,21 @@ namespace MassTransitLab2
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             await _bus.StartAsync(cancellationToken).ConfigureAwait(false);
+            await SendNewSlip();
+            await SendNewSlip();
+            await SendNewSlip();
+            await SendNewSlip();
+            await SendNewSlip();
+            var endpoint = await _bus.GetSendEndpoint(new Uri("queue:scoped"));
+            await endpoint.Send<ITestEvent>(new { });
+        }
+
+        private async Task SendNewSlip()
+        {
             var builder = new RoutingSlipBuilder(Guid.NewGuid());
             builder.AddActivity("ScopedActivity", new Uri("queue:scoped_execute"));
 
             await _bus.Execute(builder.Build());
-            var endpoint = await _bus.GetSendEndpoint(new Uri("queue:scoped"));
-            await endpoint.Send<ITestEvent>(new { });
         }
 
         public Task StopAsync(CancellationToken cancellationToken)

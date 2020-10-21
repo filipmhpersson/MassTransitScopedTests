@@ -28,7 +28,7 @@ namespace MassTransitLab2
         public async Task Send(ExecuteContext<TArguments> context, IPipe<ExecuteContext<TArguments>> next)
         {
             Console.WriteLine("Setting activity tenant in filter");
-            _contextService.TenantId = "Hello";
+            _contextService.TenantId = "Hello " + new Random().Next(0, 100).ToString();
 
             await next.Send(context);
         }

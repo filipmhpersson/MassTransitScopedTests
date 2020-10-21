@@ -31,10 +31,10 @@ namespace MassTransitLab2
 
                         cfg.UsingRabbitMq((context, configurator) =>
                         {
+                            configurator.UseServiceScope(context);
                             configurator.UseExecuteActivityFilter(typeof(AddActivityScopedValueFilter<>), context);
                             configurator.UseConsumeFilter(typeof(AddConsumerScopedValueFilter<>), context);
                             configurator.ConfigureEndpoints(context);
-
                         });
                     });
 
